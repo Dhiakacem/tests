@@ -1,15 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
-import {
-  FaSignOutAlt,
-  FaHome,
-  FaPlus,
-  FaSearch,
-  FaUser,
-} from "react-icons/fa";
+import { FaSignOutAlt, FaHome, FaPlus, FaSearch, FaUser } from "react-icons/fa";
 import { LuMenu } from "react-icons/lu";
-import logo from "./logo.png";
+import logo from "./logonoz.png";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
