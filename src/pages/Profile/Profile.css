@@ -124,13 +124,14 @@
 
 .sidebar h2 {
   font-size: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   text-align: center;
   font-weight: bold;
 }
 
 .sidebar p {
   margin-bottom: 8px;
+  font-size: 15px;
 }
 
 .sidebar-profile {

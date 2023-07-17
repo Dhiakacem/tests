@@ -105,9 +105,10 @@ const Profile = () => {
                 </div>
               </div>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac
-                eros at erat suscipit condimentum. Integer consequat ex non
-                turpis iaculis dapibus.
+                Un conducteur expérimenté , attentif à la sécurité de
+                mes passagers. Je possède une excellente expérience de conduite
+                et suis respectueux des règles de la route. Vous pouvez compter
+                sur moi pour un covoiturage fiable et convivial !
               </p>
             </div>
           </div>
@@ -173,6 +174,7 @@ const Profile = () => {
                 value={password}
                 onChange={handlePasswordChange}
                 className="form-input"
+                disabled
               />
             </div>
             <div className="button-group">
