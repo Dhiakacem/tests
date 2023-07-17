@@ -19,10 +19,10 @@ const Details = () => {
     description: "descriptions",
     rating: 4.5,
   };
-
-  const renderStars = (rating) => {
-    const filledStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
+  
+  const renderStars = (Rating) => {
+    const filledStars = Math.floor(Rating);
+    const hasHalfStar = Rating % 1 !== 0;
 
     const stars = [];
 
@@ -36,7 +36,6 @@ const Details = () => {
 
     return stars;
   };
-
   return (
     <>
       <Navbar />
@@ -55,7 +54,6 @@ const Details = () => {
               </NavLink>
             </div>
             <h2 className="profile-title">Profil Utilisateur</h2>
-
             <div className="sidebar-profile">
               <img
                 src={profileImage}
@@ -74,7 +72,6 @@ const Details = () => {
               iaculis dapibus.
             </p>
           </div>
-
           <div className="rating-container">
             <h3 className="titre">Votre évaluation...</h3>
             <div className="Rate-container">
@@ -87,7 +84,7 @@ const Details = () => {
               </div>
             </div>
           </div>
-        </div>{" "}
+        </div>
       </div>
       <Trajet />
       <Footer />

@@ -9,7 +9,6 @@ const SignUp = () => {
   const toggleSignIn = () => {
     setSignIn(true);
   };
-
   const toggleSignUp = () => {
     setSignIn(false);
   };
@@ -17,11 +16,10 @@ const SignUp = () => {
     navigate("/");
 
   };
- 
   return (
 
       <Components.Container>
-        <Components.SignUpContainer signinIn={signIn}>
+        <Components.SignUpContainer SigninIn={signIn}>
           <Components.Form>
             <Components.Title>Create Account</Components.Title>
             <Components.Input type="text" placeholder="Name" />
@@ -32,8 +30,7 @@ const SignUp = () => {
             <Components.Button>Sign Up</Components.Button>
           </Components.Form>
         </Components.SignUpContainer>
-
-        <Components.SignInContainer signinIn={signIn}>
+        <Components.SignInContainer SigninIn={signIn}>
           <Components.Form>
             <Components.Title>Sign in</Components.Title>
             <Components.Input type="email" placeholder="Email" />
@@ -41,10 +38,9 @@ const SignUp = () => {
             <Components.Button onClick={handleClick}>Sign In</Components.Button>
           </Components.Form>
         </Components.SignInContainer>
-
-        <Components.OverlayContainer signinIn={signIn}>
-          <Components.Overlay signinIn={signIn}>
-            <Components.LeftOverlayPanel signinIn={signIn}>
+        <Components.OverlayContainer SigninIn={signIn}>
+          <Components.Overlay SigninIn={signIn}>
+            <Components.LeftOverlayPanel SigninIn={signIn}>
               <Components.Title>Welcome Back!</Components.Title>
               <Components.Paragraph>
                 To keep connected with us, please login with your personal info
@@ -53,8 +49,7 @@ const SignUp = () => {
                 Sign In
               </Components.GhostButton>
             </Components.LeftOverlayPanel>
-
-            <Components.RightOverlayPanel signinIn={signIn}>
+            <Components.RightOverlayPanel SigninIn={signIn}>
               <Components.Title>Hello, Friend!</Components.Title>
               <Components.Paragraph>
                 Enter your personal details and start the journey with us

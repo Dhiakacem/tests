@@ -7,8 +7,6 @@ import {
   FaPlus,
   FaSearch,
   FaUser,
-  FaAngleDown,
-  FaAngleRight,
 } from "react-icons/fa";
 import { LuMenu } from "react-icons/lu";
 import logo from "./logo.png";

@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
-import { FaClock, FaStar, FaCar, FaSnowflake, FaSmoking, FaDollarSign, FaWalking } from "react-icons/fa";
+import {
+  FaClock,
+  FaStar,
+  FaCar,
+  FaSnowflake,
+  FaSmoking,
+  FaDollarSign,
+  FaWalking,
+} from "react-icons/fa";
 
 const Sidebar = ({ handleFilterChange }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -129,7 +137,6 @@ const Sidebar = ({ handleFilterChange }) => {
           </ul>
         </li>
         <li className="menu-item sub-menu-item">
-          <h3 className="line"></h3>
           <h3 className="sub-menu-heading">
             <FaCar className="sub-menu-icon" /> Services et Options
           </h3>
@@ -187,3 +194,4 @@ const Sidebar = ({ handleFilterChange }) => {
 };
 
 export default Sidebar;
+  
