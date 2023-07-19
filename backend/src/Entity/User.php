@@ -60,6 +60,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                                         "phoneNumber"    = {"type" = "integer"},
                                         "gender"  = {"type" = "string"},
                                         "username"    = {"type" = "string"},
+
                                     },
                                 },
                             },
@@ -69,7 +70,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             },
 "patch_edit_profile" = {
                 "method" = "PATCH",
-                "path" = "/edit_profile",
+                "path" = "/api/edit_profile",
                 "route_name"="edit_profile",
                 "openapi_context" = {
                     "requestBody" = {
@@ -83,6 +84,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                                         "name" = {"type" = "string"},
                                         "lastName"= {"type" = "string"},
                                         "phoneNumber"    = {"type" = "integer"},
+                                        
        
                                     },
                                 },
@@ -184,7 +186,6 @@ class User  implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->id;
     }
-
     
     public function getName(): ?string
     {

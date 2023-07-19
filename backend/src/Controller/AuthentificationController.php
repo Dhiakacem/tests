@@ -53,7 +53,7 @@ class AuthentificationController extends AbstractController
               $user_exist = $this->userRepository->findOneBy(['email' =>$email]);
 
               if (!$user_exist ) {
-            return new JsonResponse(Response::HTTP_UNAUTHORIZED, "USER DOESNT EXIST");
+            return new JsonResponse("USER DOESNT EXIST", Response::HTTP_UNAUTHORIZED);
             
         } 
         
@@ -64,8 +64,8 @@ class AuthentificationController extends AbstractController
             return new JsonResponse('incorrect Email and/or Password.', Response::HTTP_UNAUTHORIZED); 
         }             
 
-
         $hub_user = new stdClass();
+        $hub_user->id = $user_exist->getId();
         $hub_user->email = $user_exist->getEmail();
         $hub_user->name = $user_exist->getName();
         $hub_user->lastname = $user_exist->getLastName();
@@ -130,6 +130,7 @@ class AuthentificationController extends AbstractController
         $user->setLastName($lastname);
         $user->setGender($gender);
         $user->setPhoneNumber($phoneNumber);
+        $user->setRoles(["ROLE_USER"]);
 
     // Encode the password
        $encodedPassword = $this->passwordEncoder->encodePassword($user, $password);
