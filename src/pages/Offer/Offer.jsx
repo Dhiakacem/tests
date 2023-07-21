@@ -1,54 +1,109 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiMapPin, FiCalendar, FiClock, FiUsers } from "react-icons/fi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Popup from "reactjs-popup";
 import "./Offer.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import GoogleMapsImage from "../../assets/google-maps-image.jpg";
-import { FaSmoking, FaSnowflake } from "react-icons/fa";
+import {
+  FaCar,
+  FaMoneyBillWave,
+  FaMusic,
+  FaSmoking,
+  FaSnowflake,
+} from "react-icons/fa";
 import Scrollbar from "../../components/Scrollbar/Scrollbar";
+import axios from "axios";
+import API_URL from "../../services";
+import { UserContext } from "../../Context/UserContext";
 
 const Offer = () => {
   const [departure, setDeparture] = useState("");
   const [destination, setDestination] = useState("");
   const [departureDate, setDepartureDate] = useState("");
   const [departureTime, setDepartureTime] = useState("");
+  const [arrivalTime, setArrivalTime] = useState("");
   const [persons, setPersons] = useState("");
-  const [popupOpen, setPopupOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [price, setPrice] = useState("");
+
+  const [optionData, setOptionsData] = useState([]);
+
+  const [selectedOptions, setSelectedOptions] = useState(new Set());
+
+  const handleOptionChange = (optionId) => {
+    setSelectedOptions((prevSelectedOptions) => {
+      const newSelectedOptions = new Set(prevSelectedOptions);
+      if (prevSelectedOptions.has(optionId)) {
+        newSelectedOptions.delete(optionId);
+      } else {
+        newSelectedOptions.add(optionId);
+      }
+      return newSelectedOptions;
+    });
+  };
+
+  const optionIconMap = {
+    "Option 1": <FaSnowflake className="option-icon" />,
+    "Option 2": <FaSmoking className="option-icon" />,
+    "Option 3": <FaMusic className="option-icon" />,
+    // Add more mappings for other options if needed
+  };
+
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/options`);
+        console.log("response options", response.data);
+        setOptionsData(response.data);
+      } catch (error) {
+        console.log("Error fetching options data:", error);
+      }
+    };
+
+    fetchOptions();
+  }, []);
 
   const navigate = useNavigate();
 
-  const handlePopupOpen = (event) => {
-    event.preventDefault();
-    setPopupOpen(true);
-  };
+  const { userData } = useContext(UserContext);
 
-  const handleNext = (event) => {
-    event.preventDefault();
+  // Fetch options data from the database when the component mounts
 
-    // Validate if departure and destination are set
-    if (departure && destination && departureDate && departureTime && persons) {
-      // Show a success toast notification
-      toast.success("Places offertes avec succès !");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const status = await axios.get(`${API_URL}/api/statuses/1`);
+      const selectedOptionIds = Array.from(selectedOptions);
 
-      // Navigate to "/offer/settime" route
-      navigate("/");
-    } else {
-      // Show an error toast notification
-      toast.error("Veuillez remplir tous les champs !");
+      const RideData = {
+        departurePoint: departure,
+        arrivalPoint: destination,
+        departureTime: `${departureDate} ${departureTime}`,
+        arrivalTime: `${departureDate} ${arrivalTime}`,
+        price: price,
+        places: persons,
+        user: userData.id,
+        status: status.data,
+        options: selectedOptionIds,
+      };
+
+      console.log("rideData", RideData);
+
+      // Save the RideData to the database
+      const response = await axios.post(`${API_URL}/api/rides`, RideData);
+      console.log("Server response:", response.data);
+
+      console.log("Success");
+      toast.success("Formulaire soumis avec succès !");
+    } catch (error) {
+      console.log(error.response);
+      console.log("Error:", error.response.data);
+      /*    toast.error(
+        "Une erreur est survenue lors de la soumission du formulaire."
+      ); */
     }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    toast.success("Formulaire soumis avec succès !");
-
-    setPopupOpen(false);
   };
 
   return (
@@ -88,7 +143,7 @@ const Offer = () => {
             />
           </div>
           <div className="input-group">
-            <FiClock className="form-icon" />
+            <FaCar className="form-icon" />
             <input
               type="time"
               value={departureTime}
@@ -98,53 +153,54 @@ const Offer = () => {
             />
           </div>
           <div className="input-group">
-            <FiUsers className="form-icon" />
+            <FiClock className="form-icon" />
             <input
-              type="number"
-              value={persons}
-              onChange={(event) => setPersons(event.target.value)}
-              placeholder="Nombre de personnes"
+              type="time"
+              value={arrivalTime}
+              onChange={(event) => setArrivalTime(event.target.value)}
+              placeholder="Heure de départ"
               className="form-input"
             />
           </div>
           <div className="input-group">
-            <button type="submit" className="hh" onClick={handlePopupOpen}>
-              Suivant
-            </button>
+            <FiUsers className="form-icon" />
+            <input
+              type="number"
+              value={persons}
+              onChange={(event) => setPersons(Number(event.target.value))}
+              placeholder="Nombre de personnes"
+              className="form-input"
+            />
+          </div>{" "}
+          <div className="input-group">
+            <FaMoneyBillWave className="form-icon" />
+            <input
+              type="number"
+              value={price}
+              onChange={(event) => setPrice(parseFloat(event.target.value))}
+              placeholder="Prix"
+              className="form-input"
+            />
           </div>
         </div>
-        <Popup open={popupOpen} onClose={() => setPopupOpen(false)} modal>
-          <div className="popup-content">
-            <h2 className="popup-title">Sélectionnez votre option</h2>
-            <form className="popup-form" onSubmit={handleSubmit}>
-              <div className="option">
-                <label>
-                  <input
-                    type="checkbox"
-                    value="option1"
-                    onChange={() => setSelectedOption("option1")}
-                  />
-                  <FaSnowflake className="option-icon" />
-                  <span className="option-label">Climatisation</span>
-                </label>
-              </div>
-              <div className="option">
-                <label>
-                  <input
-                    type="checkbox"
-                    value="option2"
-                    onChange={() => setSelectedOption("option2")}
-                  />
-                  <FaSmoking className="option-icon" />
-                  <span className="option-label">Fumeurs autorisés</span>
-                </label>
-              </div>
-              <button type="submit" className="submit-button">
-                Soumettre
-              </button>
-            </form>
-          </div>
-        </Popup>
+
+        <div className="select_options">
+          <h3> Select option</h3>
+          {optionData.map((option) => (
+            <div className="option" key={option.id}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={selectedOptions.has(option.id)}
+                  onChange={() => handleOptionChange(option.id)}
+                />
+                {optionIconMap[option.name] || null}
+                <span className="option-label">{option.name}</span>
+              </label>
+            </div>
+          ))}
+        </div>
+
         <div className="google-maps-image-container">
           <img
             src={GoogleMapsImage}
@@ -153,11 +209,11 @@ const Offer = () => {
           />
         </div>
       </div>
-      <button type="submit" className="OfferBtn" onClick={handleNext}>
+      <button type="submit" className="OfferBtn" onClick={handleSubmit}>
         Ajouter
       </button>
       <ToastContainer />
-      <Scrollbar/>
+      <Scrollbar />
       <Footer />
     </>
   );

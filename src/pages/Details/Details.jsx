@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import profileImage from "../../assets/Profile-image.png";
@@ -7,19 +7,23 @@ import "./Details.css";
 import { FaUserEdit } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import Trajet from "../../components/Trajet/Trajet";
+import API_URL from "../../services";
+import axios from "axios";
+import { UserContext } from "../../Context/UserContext";
 
 const Details = () => {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const card = {
     id: 1,
-    username: " HediUser",
-    description: "descriptions",
+    username: "HediUser",
+    description:
+      "     Un conducteur expérimenté , attentif à la sécurité de mes passagers.",
     rating: 4.5,
   };
-  
+
   const renderStars = (Rating) => {
     const filledStars = Math.floor(Rating);
     const hasHalfStar = Rating % 1 !== 0;
@@ -36,6 +40,59 @@ const Details = () => {
 
     return stars;
   };
+
+  const { userData } = useContext(UserContext);
+
+  useEffect(() => {
+    if (userData && userData.id) {
+      const fetchUserData = async () => {
+        try {
+          console.log("Fetching user data...");
+          const response = await axios.get(
+            `${API_URL}/api/users/${userData.id}`
+          );
+          const fetchedUserData = response.data;
+
+          console.log("Fetched user data:", fetchedUserData);
+
+          setName(fetchedUserData.name);
+          setLastName(fetchedUserData.lastName);
+          setPhoneNumber(fetchedUserData.phoneNumber);
+        } catch (error) {
+          console.log("Error fetching user data:", error);
+        }
+      };
+
+      fetchUserData();
+    }
+  }, [userData]);
+
+  const saveProfile = async () => {
+    try {
+      const updatedUserData = {
+        name,
+        lastName,
+        phoneNumber,
+      };
+
+      console.log("Updating user profile...", updatedUserData);
+
+      await axios.put(`${API_URL}/api/users/${userData.id}`, updatedUserData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("Profile updated successfully!");
+
+      // Simulating a successful save
+      return Promise.resolve();
+    } catch (error) {
+      console.log("Failed to save profile:", error);
+      return Promise.reject();
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -62,8 +119,8 @@ const Details = () => {
               />
               <div className="sidebar-profile-info">
                 <p className="profile-info">Nom : {name}</p>
-                <p className="profile-info">Nom de famille : {lastName}</p>
-                <p className="profile-info">Téléphone : {phone}</p>
+                <p className="profile-info">Prénom: {lastName}</p>
+                <p className="profile-info">Téléphone : {phoneNumber}</p>
               </div>
             </div>
             <p className="profile-description">
@@ -77,7 +134,9 @@ const Details = () => {
             <div className="Rate-container">
               <div className="rate position-1" key={card.id}>
                 <div className="rate-profile">
-                  <div className="username">{card.username}</div>
+                  <div className="username">
+                    {name} {lastName}
+                  </div>
                 </div>
                 <div className="description">{card.description}</div>
                 <div className="rating">{renderStars(card.rating)}</div>
