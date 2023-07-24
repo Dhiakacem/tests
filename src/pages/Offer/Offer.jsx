@@ -69,13 +69,14 @@ const Offer = () => {
 
   const { userData } = useContext(UserContext);
 
-  // Fetch options data from the database when the component mounts
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const status = await axios.get(`${API_URL}/api/statuses/1`);
       const selectedOptionIds = Array.from(selectedOptions);
+      const options = selectedOptionIds.map(
+        (optionId) => `/api/options/${optionId}`
+      );
 
       const RideData = {
         departurePoint: departure,
@@ -84,14 +85,13 @@ const Offer = () => {
         arrivalTime: `${departureDate} ${arrivalTime}`,
         price: price,
         places: persons,
-        user: userData.id,
+        user: `/api/users/${userData.id}`,
         status: status.data,
-        options: selectedOptionIds,
+        options: options,
       };
 
       console.log("rideData", RideData);
 
-      // Save the RideData to the database
       const response = await axios.post(`${API_URL}/api/rides`, RideData);
       console.log("Server response:", response.data);
 
@@ -100,9 +100,9 @@ const Offer = () => {
     } catch (error) {
       console.log(error.response);
       console.log("Error:", error.response.data);
-      /*    toast.error(
+      toast.error(
         "Une erreur est survenue lors de la soumission du formulaire."
-      ); */
+      );
     }
   };
 

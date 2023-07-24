@@ -15,6 +15,7 @@ const Profile = () => {
   const [name, setName] = useState("");
   const [username, setUserName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showTitle, setShowTitle] = useState(true);
@@ -55,14 +56,16 @@ const Profile = () => {
         name: name,
         lastName: lastName,
         phoneNumber: phoneNumberInt,
+        email: email,
       };
-      await axios.put(`${API_URL}/api/users/${userData.id}`, updatedUserData);
+      await axios.get(`${API_URL}/api/users/${userData.id}`, updatedUserData);
       console.log("user data console ", updatedUserData);
 
       // Display success message
       toast.success("Profile saved successfully!");
       setName("");
       setLastName("");
+      setEmail("");
       setPhoneNumber("");
       setPassword("");
     } catch (error) {
@@ -86,6 +89,7 @@ const Profile = () => {
           setUserName(fetchedUserData.username);
           setName(fetchedUserData.name);
           setLastName(fetchedUserData.lastName);
+          setEmail(fetchedUserData.email);
           setPhoneNumber(fetchedUserData.phoneNumber);
         } catch (error) {
           console.log("Error fetching user data:", error);
@@ -200,7 +204,8 @@ const Profile = () => {
               <input
                 type="email"
                 id="email"
-                /*  value={email}    */ disabled
+                value={email}
+                disabled
                 className="form-input"
               />
             </div>
