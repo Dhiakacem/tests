@@ -5,9 +5,8 @@ import axios from "axios";
 import "./SignUp.css";
 import API_URL from "../../services";
 import { ToastContainer, toast } from "react-toastify";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../Context/UserContext";
-
 
 const SignUp = () => {
   const [signIn, setSignIn] = useState(true);
@@ -18,7 +17,14 @@ const SignUp = () => {
   const [phone, setPhone] = useState("");
   const [username, setUsername] = useState("");
   const [genre, setGenre] = useState("");
-  const {login} = useContext(UserContext)
+
+  const { login, checkTokenValidity } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check the token validity when the component mounts
+    checkTokenValidity();
+  }, []);
 
   const toggleSignIn = () => {
     setSignIn(true);
@@ -29,7 +35,6 @@ const SignUp = () => {
   };
 
   /*  */
-  
 
   const signupClick = async (e) => {
     e.preventDefault();
@@ -137,7 +142,9 @@ const SignUp = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Components.Button onClick={(e)=>login(email,password,e)}>Sign In</Components.Button>
+            <Components.Button onClick={(e) => login(email, password, e)}>
+              Sign In
+            </Components.Button>
           </Components.Form>
         </Components.SignInContainer>
         <Components.OverlayContainer signinin={signIn}>

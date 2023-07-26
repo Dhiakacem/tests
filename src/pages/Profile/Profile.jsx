@@ -10,6 +10,7 @@ import Scrollbar from "../../components/Scrollbar/Scrollbar";
 import axios from "axios";
 import API_URL from "../../services";
 import { UserContext } from "../../Context/UserContext";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Profile = () => {
   const [name, setName] = useState("");
@@ -19,8 +20,10 @@ const Profile = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showTitle, setShowTitle] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+  const { userData } = useContext(UserContext);
 
   const handleEdit = () => {
     navigate("/profile");
@@ -45,7 +48,9 @@ const Profile = () => {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
-
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -56,24 +61,21 @@ const Profile = () => {
         name: name,
         lastName: lastName,
         phoneNumber: phoneNumberInt,
-        email: email,
       };
-      await axios.get(`${API_URL}/api/users/${userData.id}`, updatedUserData);
-      console.log("user data console ", updatedUserData);
+
+      await axios.put(`${API_URL}/api/users/${userData.id}`, updatedUserData);
 
       // Display success message
       toast.success("Profile saved successfully!");
-      setName("");
-      setLastName("");
-      setEmail("");
-      setPhoneNumber("");
-      setPassword("");
+
+      // Redirect to the profile page after saving successfully
+      navigate("/profile");
     } catch (error) {
       console.log("Failed to save profile:", error);
+      // Display error message
+      toast.error("Failed to save profile. Please try again later.");
     }
   };
-
-  const { userData } = useContext(UserContext);
 
   useEffect(() => {
     if (userData && userData.id) {
@@ -99,14 +101,6 @@ const Profile = () => {
       fetchUserData();
     }
   }, [userData]);
-
-  const saveProfile = () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 2000);
-    });
-  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -136,6 +130,9 @@ const Profile = () => {
                 />
                 <div className="sidebar-profile-info">
                   <p>
+                    <strong>Nom d'utilisateur :</strong> {username}
+                  </p>
+                  <p>
                     <strong>Nom :</strong> {name}
                   </p>
                   <p>
@@ -147,10 +144,9 @@ const Profile = () => {
                 </div>
               </div>
               <p>
-                Un conducteur expérimenté , attentif à la sécurité de mes
+                Un conducteur expérimenté, attentif à la sécurité de mes
                 passagers. Je possède une excellente expérience de conduite et
-                suis respectueux des règles de la route. Vous pouvez compter sur
-                moi pour un covoiturage fiable et convivial !
+                suis respectueux des règles de la route.
               </p>
             </div>
           </div>
@@ -161,7 +157,7 @@ const Profile = () => {
                 type="text"
                 id="phone"
                 value={username}
-                onChange={setUserName}
+                onChange={handleUserNameChange}
                 className="form-input"
                 disabled
               />
@@ -204,35 +200,40 @@ const Profile = () => {
               <input
                 type="email"
                 id="email"
-                value={email}
+                value={userData?.email || ""}
                 disabled
                 className="form-input"
               />
             </div>
             <div className="form-group">
               <label htmlFor="password">Mot de passe :</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={handlePasswordChange}
-                className="form-input"
-                disabled
-              />
+              <div className="password-input-container">
+                <input
+                  type={showPassword ? "text" : "password"} // Show or hide the password based on showPassword state
+                  id="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  className="form-input"
+                />
+                <button
+                  type="button"
+                  className="password-toggle-button"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
+
             <div className="button-group">
               <button
-                type="submit"
+                type="button"
                 className="form-button save-button"
                 onClick={handleEdit}
               >
                 Retour
               </button>
-              <button
-                type="submit"
-                className="form-button return-button"
-                onClick={handleSubmit}
-              >
+              <button type="submit" className="form-button return-button">
                 Enregistrer
               </button>
             </div>
