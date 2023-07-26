@@ -13,8 +13,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=StatusRepository::class)
  *  @ApiResource(
- *     normalizationContext={"groups"={"ride:read"}},
- *     denormalizationContext={"groups"={"ride:write"}}
+ *     normalizationContext={"groups"={"status:read","ride:read"}},
+ *     denormalizationContext={"groups"={"status:write","ride:write"}}
  * )
  */
 class Status
@@ -23,12 +23,13 @@ class Status
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"ride:read", "ride:write"})
+     * @Groups({"status:read","ride:read", "status:write","ride:write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"status:read","ride:read", "status:write","ride:write"})
      */
     private $name;
 

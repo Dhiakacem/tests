@@ -13,8 +13,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=OptionRepository::class)
  * @ORM\Table(name="`option`")
  *  @ApiResource(
- *     normalizationContext={"groups"={"ride:read"}},
- *     denormalizationContext={"groups"={"ride:write"}}
+ *     normalizationContext={"groups"={"ride:read","option:read"}},
+ *     denormalizationContext={"groups"={"ride:write","option:write"}}
  * )
  */
 class Option
@@ -24,13 +24,13 @@ class Option
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * 
-     * @Groups({"ride:read", "ride:write"})
+     * @Groups({"ride:read","option:read", "ride:write","option:write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"ride:read", "ride:write"})
+     * @Groups({"ride:read","option:read", "ride:write","option:write"})
      */
     private $name;
 
