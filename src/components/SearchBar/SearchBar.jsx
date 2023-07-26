@@ -8,10 +8,21 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./SearchBar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SearchBar() {
   const [personCount, setPersonCount] = useState(0);
+  const [departure, setDeparture] = useState("");
+  const [arrivalPoint, setArrivalPoint] = useState("");
+  const [openDate, setOpenDate] = useState(false);
+  const [dates, setDate] = useState([]);
+  const [openOptions, setOpenOptions] = useState(false);
+  const [options, setOptions] = useState({
+    Climatisation: 0,
+    Fumer: 0,
+    Musique: 0,
+  });
+  const navigate = useNavigate();
 
   const handlePersonChange = (e) => {
     let count = parseInt(e.target.value);
@@ -62,7 +73,7 @@ function SearchBar() {
           </div>
           <div className="headerSearchItem">
             <Link to="/covoiturage">
-            <button className="headerBtn">Rechercher</button>
+              <button className="headerBtn">Rechercher</button>
             </Link>
           </div>
         </form>

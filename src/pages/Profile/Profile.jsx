@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import "./Profile.css";
@@ -7,11 +7,16 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Scrollbar from "../../components/Scrollbar/Scrollbar";
+import axios from "axios";
+import API_URL from "../../services";
+import { UserContext } from "../../Context/UserContext";
 
 const Profile = () => {
   const [name, setName] = useState("");
+  const [username, setUserName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showTitle, setShowTitle] = useState(true);
 
@@ -19,6 +24,10 @@ const Profile = () => {
 
   const handleEdit = () => {
     navigate("/profile");
+  };
+
+  const handleUserNameChange = (event) => {
+    setUserName(event.target.value);
   };
 
   const handleNameChange = (event) => {
@@ -30,7 +39,7 @@ const Profile = () => {
   };
 
   const handlePhoneChange = (event) => {
-    setPhone(event.target.value);
+    setPhoneNumber(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
@@ -40,27 +49,60 @@ const Profile = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    setName("");
-    setLastName("");
-    setPhone("");
-    setPassword("");
-
     try {
-      await toast.promise(saveProfile(), {
-        pending: "Saving profile...",
-        success: "Profile saved successfully!",
-        error: "Failed to save profile.",
-      });
+      // Update the user profile with the new data
+      const phoneNumberInt = parseInt(phoneNumber);
+      const updatedUserData = {
+        name: name,
+        lastName: lastName,
+        phoneNumber: phoneNumberInt,
+        email: email,
+      };
+      await axios.get(`${API_URL}/api/users/${userData.id}`, updatedUserData);
+      console.log("user data console ", updatedUserData);
+
+      // Display success message
+      toast.success("Profile saved successfully!");
+      setName("");
+      setLastName("");
+      setEmail("");
+      setPhoneNumber("");
+      setPassword("");
     } catch (error) {
       console.log("Failed to save profile:", error);
     }
   };
 
+  const { userData } = useContext(UserContext);
+
+  useEffect(() => {
+    if (userData && userData.id) {
+      const fetchUserData = async () => {
+        try {
+          console.log("Fetching user data...");
+          const response = await axios.get(
+            `${API_URL}/api/users/${userData.id}`
+          );
+          const fetchedUserData = response.data;
+
+          console.log("Fetched user data:", fetchedUserData);
+          setUserName(fetchedUserData.username);
+          setName(fetchedUserData.name);
+          setLastName(fetchedUserData.lastName);
+          setEmail(fetchedUserData.email);
+          setPhoneNumber(fetchedUserData.phoneNumber);
+        } catch (error) {
+          console.log("Error fetching user data:", error);
+        }
+      };
+
+      fetchUserData();
+    }
+  }, [userData]);
+
   const saveProfile = () => {
-    // Simulating an asynchronous operation
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        // Simulating a successful save
         resolve();
       }, 2000);
     });
@@ -100,15 +142,15 @@ const Profile = () => {
                     <strong>Prénom :</strong> {lastName}
                   </p>
                   <p>
-                    <strong>Téléphone :</strong> {phone}
+                    <strong>Téléphone :</strong> {phoneNumber}
                   </p>
                 </div>
               </div>
               <p>
-                Un conducteur expérimenté , attentif à la sécurité de
-                mes passagers. Je possède une excellente expérience de conduite
-                et suis respectueux des règles de la route. Vous pouvez compter
-                sur moi pour un covoiturage fiable et convivial !
+                Un conducteur expérimenté , attentif à la sécurité de mes
+                passagers. Je possède une excellente expérience de conduite et
+                suis respectueux des règles de la route. Vous pouvez compter sur
+                moi pour un covoiturage fiable et convivial !
               </p>
             </div>
           </div>
@@ -118,8 +160,8 @@ const Profile = () => {
               <input
                 type="text"
                 id="phone"
-                value={phone}
-                onChange={handlePhoneChange}
+                value={username}
+                onChange={setUserName}
                 className="form-input"
                 disabled
               />
@@ -151,7 +193,7 @@ const Profile = () => {
               <input
                 type="text"
                 id="phone"
-                value={phone}
+                value={phoneNumber}
                 onChange={handlePhoneChange}
                 className="form-input"
                 required
@@ -162,7 +204,8 @@ const Profile = () => {
               <input
                 type="email"
                 id="email"
-                /*  value={email}    */ disabled
+                value={email}
+                disabled
                 className="form-input"
               />
             </div>

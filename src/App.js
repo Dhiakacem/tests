@@ -12,19 +12,17 @@ import Carpooling from "./pages/Carpooling/Carpooling";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Profile/Edit" element={<Profile />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/Search" element={<Search />} />
-        <Route path="/Covoiturage" element={<List />} />
-        <Route path="/Profile" element={<Details />} />
-        <Route path="/Rating" element={<Rating />} />
-        <Route path="/Offer" element={<Offer />} />
-        <Route path="/Covoiturage/save" element={<Carpooling />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/Profile/Edit" element={<Profile />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/Search" element={<Search />} />
+      <Route path="/Covoiturage" element={<List />} />
+      <Route path="/Profile" element={<Details />} />
+      <Route path="/Rating" element={<Rating />} />
+      <Route path="/Offer" element={<Offer />} />
+      <Route path="/Covoiturage/save" element={<Carpooling />} />
+    </Routes>
   );
 }
 

@@ -107,7 +107,7 @@
   outline: none;
 }
 .hh {
-  background:  #343f87;
+  background: #343f87;
   color: white;
   font-weight: 500;
   border-radius: 15px;
@@ -139,62 +139,38 @@
   width: 20px;
   height: 20px;
   margin-left: 5px;
-  
 }
 
-
-.popup-content {
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  max-width: 320px;
-  margin: 0 auto;
+.option-icon {
+  margin-right: 10px;
+  vertical-align: middle;
 }
 
-.popup-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 16px;
-}
-
-.popup-form {
+.select_options {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.select-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .option {
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-bottom: 10px;
   flex-direction: row;
 }
 
-.checkmark {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  margin-right: 8px;
-}
-
 .option-label {
   font-size: 15px;
-}
-
-.submit-button {
-  background-color: #333;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 16px;
-
-  
-} 
-.option-icon {
-  margin-right: 10px;
-  vertical-align: middle;
+  margin-left: 10px;
+  flex-direction: row;
+  display: flex;
 }
