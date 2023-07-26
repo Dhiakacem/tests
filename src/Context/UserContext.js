@@ -10,12 +10,33 @@ export const UserProvider = ({ children }) => {
   const [optionsData, setOptionsData] = useState([]);
   const [statussData, setStatussData] = useState([]);
   const navigate = useNavigate();
+
   const fetchOptionsData = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/options`);
       setOptionsData(response.data);
     } catch (error) {
       console.log("Error fetching options data:", error);
+    }
+  };
+
+  const checkTokenValidity = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      if (!token) {
+        throw new Error("No token found");
+      }
+
+      const response = await axios.post(`${API_URL}/check-token`, { token });
+
+      if (response.status === 200) {
+        setUserData(response.data);
+      } else {
+        navigate("/signup");
+      }
+    } catch (error) {
+      navigate("/signup");
     }
   };
 
@@ -102,7 +123,9 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ userData, optionsData, statussData, login }}>
+    <UserContext.Provider
+      value={{ userData, optionsData, statussData, login, checkTokenValidity }}
+    >
       {children}
     </UserContext.Provider>
   );
