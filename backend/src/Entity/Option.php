@@ -30,7 +30,7 @@ class Option
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"option:read"})
+     * @Groups({"ride:read", "ride:write"})
      */
     private $name;
 
