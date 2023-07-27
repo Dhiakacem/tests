@@ -1,4 +1,3 @@
-// Parent component
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -10,7 +9,6 @@ import Scrollbar from "../../components/Scrollbar/Scrollbar";
 
 const List = () => {
   const handleFilterChange = (filterOption) => {
-    // Handle filter change logic here
     console.log("Filter option selected: ", filterOption);
   };
 

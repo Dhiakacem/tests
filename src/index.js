@@ -5,13 +5,17 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { UserProvider } from "./Context/UserContext";
 import { BrowserRouter } from "react-router-dom";
+import store from "../src/Redux/store";
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>

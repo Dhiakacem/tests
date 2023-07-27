@@ -9,15 +9,13 @@ const Featured = () => {
   };
 
   const cards = [
-    { departure: "New York", arrival: "Los Angeles" },
-    { departure: "Londres", arrival: "Paris" },
-    { departure: "Tokyo", arrival: "Tunis" },
-    { departure: "Dubai", arrival: "Rome" },
-    { departure: "Dubai", arrival: "Le Caire" },
-    { departure: "Dubai", arrival: "Le Caire" },
-    { departure: "Dubai", arrival: "Le Caire" },
-    { departure: "Dubai", arrival: "Le Caire" },
-    { departure: "Dubai", arrival: "Le Caire" },
+    { departure: "Sousse", arrival: "Tunis" },
+    { departure: "Sfax", arrival: "Tunis" },
+    { departure: "Tunis", arrival: "Sousse" },
+    { departure: "Monastir", arrival: "Sousse" },
+    { departure: "Kairoun", arrival: "Sousse" },
+    { departure: "Sousse", arrival: "Mahdia" },
+    { departure: "Nabeul", arrival: "Tunis" },
   ];
 
   const displayedCards = showAll ? cards : cards.slice(0, 4);

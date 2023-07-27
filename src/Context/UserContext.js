@@ -11,15 +11,6 @@ export const UserProvider = ({ children }) => {
   const [statussData, setStatussData] = useState([]);
   const navigate = useNavigate();
 
-  const fetchOptionsData = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/api/options`);
-      setOptionsData(response.data);
-    } catch (error) {
-      console.log("Error fetching options data:", error);
-    }
-  };
-
   const checkTokenValidity = async () => {
     const token = localStorage.getItem("token");
 
@@ -54,7 +45,6 @@ export const UserProvider = ({ children }) => {
       const response = await axios.post(`${API_URL}/login`, logindata, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       if (response.status === 200) {
@@ -112,6 +102,14 @@ export const UserProvider = ({ children }) => {
         setStatussData(response.data);
       } catch (error) {
         console.log("Error fetching status data:", error);
+      }
+    };
+    const fetchOptionsData = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/options/`);
+        setOptionsData(response.data);
+      } catch (error) {
+        console.log("Error fetching options data:", error);
       }
     };
 
