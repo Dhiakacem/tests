@@ -16,6 +16,7 @@ import "./Carpooling.css";
 import Scrollbar from "../../components/Scrollbar/Scrollbar";
 import axios from "axios";
 import API_URL from "../../services";
+import { FaLongArrowAltRight } from "react-icons/fa";
 import { UserContext } from "../../Context/UserContext";
 
 const Carpooling = () => {
@@ -33,7 +34,7 @@ const Carpooling = () => {
   };
 
   useEffect(() => {
-    fetchTripData(); // Fetch trip data when the component mounts
+    fetchTripData();
   }, []);
 
   const getRandomTime = () => {
@@ -98,7 +99,27 @@ const Carpooling = () => {
               <FaClock className="cardinfoicon" />
               <span>Temps de depart {departureTime}</span>
             </div>
-            <div className="trajet">-----</div>
+            <div className="trajet">
+              {" "}
+              <span className="arrow-icon">
+                <FaLongArrowAltRight />
+              </span>
+            </div>
+            <div className="cardinfo">
+              <FaClock className="cardinfoicon" />
+              <span>Temps de arriver {departureTime}</span>
+            </div>
+          </div>
+          <div className="carddetails">
+            <div className="cardinfo">
+              <FaCar className="cardinfoicon" />
+              <span> {destinationPlace}</span>
+            </div>
+            <div className="trajet">
+              <span className="arrow-icon">
+                <FaLongArrowAltRight />
+              </span>
+            </div>
             <div className="cardinfo">
               <FaMapMarkerAlt className="cardinfoicon" />
               <span>{destinationPlace}</span>

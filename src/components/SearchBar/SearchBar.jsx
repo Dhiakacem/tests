@@ -78,6 +78,7 @@ function SearchBar() {
 
     fetchCarpoolings();
   }, [dispatch, departurePoint, arrivalPoint]);
+    
 
   return (
     <div className="Search-container">
