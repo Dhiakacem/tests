@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { FaSignOutAlt, FaHome, FaPlus, FaSearch, FaUser } from "react-icons/fa";
 import { LuMenu } from "react-icons/lu";
 import logo from "./logonoz.png";
+import { UserContext } from "../../Context/UserContext";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { userData } = useContext(UserContext);
+  const [isLoggedin, setIsLoggedin] = useState(false);
+  const navigate = useNavigate();
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
@@ -16,6 +20,17 @@ function Navbar() {
     setIsOpen(false);
   };
 
+  const logout = () => {
+    localStorage.removeItem("token-info");
+    
+    setIsLoggedin(false);
+
+    navigate("/signup");
+  };
+
+  const handleSignUp = () => {
+    navigate("/SignUp");
+  };
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -47,32 +62,34 @@ function Navbar() {
 
         <div className="navbar-icons-container">
           <div className="navbar-icons">
-            <div className="dropdown">
-              <button className="dropdown-toggle" onClick={toggleNavbar}>
-                <LuMenu className="nav-ic" />
-              </button>
-              {isOpen && (
-                <div className="dropdown-menu">
-                  <Link
-                    to="/Profile"
-                    className="dropdown-link"
-                    onClick={closeNavbar}
-                  >
-                    <FaUser className="dropdown-icon" />
-                    Mon profile
-                  </Link>
-                  <hr className="dropdown-line" />
-                  <Link
-                    to="/SignUp"
-                    className="dropdown-link"
-                    onClick={closeNavbar}
-                  >
-                    <FaSignOutAlt className="dropdown-icon" />
-                    Déconnexion
-                  </Link>
-                </div>
-              )}
-            </div>
+            {userData ? (
+              <div className="dropdown">
+                <button className="dropdown-toggle" onClick={toggleNavbar}>
+                  <LuMenu className="nav-ic" />
+                </button>
+                {isOpen && (
+                  <div className="dropdown-menu">
+                    <Link
+                      to="/Profile"
+                      className="dropdown-link"
+                      onClick={closeNavbar}
+                    >
+                      <FaUser className="dropdown-icon" />
+                      Profile
+                    </Link>
+                    <hr className="dropdown-line" />
+                    <button className="dropdown-link" onClick={logout}>
+                      <FaSignOutAlt className="dropdown-icon" />
+                      Déconnexion
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link to="/SignUp" className="signup-button">
+                Sign Up
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -102,11 +102,10 @@
   padding: 0;
 }
 
-.nav-ic{
+.nav-ic {
   margin-top: 5px;
   width: 20px;
   height: 20px;
-
 }
 
 .dropdown-menu {
@@ -149,4 +148,15 @@
   margin: 2px;
 }
 
-
+.signup-button {
+  background: linear-gradient(#81bc01, #343f87);
+  color: white;
+  text-align: center;
+  border-radius: 15px;
+  padding: 5px;
+  justify-content: center;
+  cursor: pointer;
+  width: 100px;
+  align-items: center;
+  border: none;
+}

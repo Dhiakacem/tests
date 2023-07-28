@@ -118,11 +118,11 @@ const ListItem = ({ data }) => {
                   <div className="itemcard-icons">
                     {trip.options.map((icon, index) => {
                       if (icon.id === 1) {
-                        return <FaSnowflake key={index} />;
+                        return <FaSnowflake key={index} alt="Climatisation" />;
                       } else if (icon.id === 2) {
-                        return <FaSmoking key={index} />;
+                        return <FaSmoking key={index} alt="Fumer" />;
                       } else {
-                        return <FaMusic key={index} />;
+                        return <FaMusic key={index} alt="Musique" />;
                       }
                     })}
                   </div>

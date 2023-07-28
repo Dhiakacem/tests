@@ -7,6 +7,8 @@ import API_URL from "../../services";
 import { ToastContainer, toast } from "react-toastify";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../Context/UserContext";
+import Navbar from "../../components/Navbar/Navbar";
+import Footer from "../../components/footer/Footer";
 
 const SignUp = () => {
   const [signIn, setSignIn] = useState(true);
@@ -22,7 +24,6 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check the token validity when the component mounts
     checkTokenValidity();
   }, []);
 
@@ -33,8 +34,6 @@ const SignUp = () => {
   const toggleSignUp = () => {
     setSignIn(false);
   };
-
-  /*  */
 
   const signupClick = async (e) => {
     e.preventDefault();
@@ -78,6 +77,7 @@ const SignUp = () => {
 
   return (
     <>
+      <Navbar />
       <Components.Container>
         <Components.SignUpContainer signinin={signIn}>
           <Components.Form>
@@ -171,6 +171,7 @@ const SignUp = () => {
         </Components.OverlayContainer>
       </Components.Container>
       <ToastContainer />
+      <Footer />
     </>
   );
 };
