@@ -1,153 +1,96 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaSnowflake, FaSmoking, FaLongArrowAltRight } from "react-icons/fa";
+import {
+  FaSnowflake,
+  FaSmoking,
+  FaLongArrowAltRight,
+  FaMusic,
+} from "react-icons/fa";
+import { format } from "date-fns";
 import "./ListItem.css";
 
-const ListItem = (selectedOption) => {
-  const items = [
-    {
-      id: 1,
-      name: "Item 1",
-      price: "10",
-      place: "Paris",
-      arrive: "Lyon",
-      departureTime: "9:00 AM",
-      arrivalTime: "11:00 AM",
-      user: "Lorem Ipsum",
-      status: "Disponible",
-    },
-    {
-      id: 3,
-      name: "Item 2",
-      price: "$20",
-      place: "Paris",
-      arrive: "Lyon",
-      departureTime: "10:00 AM",
-      arrivalTime: "12:00 PM",
-      user: "John Doe",
-      status: "Disponible",
-    },
-    {
-      id: 4,
-      name: "Item 2",
-      price: "$25",
-      place: "Paris",
-      arrive: "Lyon",
-      departureTime: "08:00 AM",
-      arrivalTime: "10:30 PM",
-      user: "John Doe",
-      status: "Disponible",
-    },
-    {
-      id: 5,
-      name: "Item 2",
-      price: "$19",
-      place: "Paris",
-      arrive: "Lyon",
-      departureTime: "06:00 AM",
-      arrivalTime: "07:45 PM",
-      user: "John Doe",
-      status: "En cour",
-    },
-    {
-      id: 6,
-      name: "Item 2",
-      price: "$15",
-      place: "Paris",
-      arrive: "Lyon",
-      departureTime: "10:00 AM",
-      arrivalTime: "11:30 PM",
-      user: "John Doe",
-      status: "Annuler",
-    },
-    {
-      id: 7,
-      name: "Item 2",
-      price: "$10",
-      place: "Paris",
-      arrive: "Lyon",
-      departureTime: "14:00 AM",
-      arrivalTime: "15:30 PM",
-      user: "John Doe",
-      status: "Annuler",
-    },
-  ];
+import { useSelector } from "react-redux";
 
-  const filteredItems = items.filter((item) => {
-    if (selectedOption === "price") {
-      return item.price === "$15";
-    } else if (selectedOption === "departure") {
-      return item.departureTime === "9:00 AM";
-    } else {
-      return true;
-    }
-  });
+const ListItem = ({ data }) => {
+  const dataSearch = useSelector((state) => state.dataSearch.dataSearch);
 
   const getStatus = (status) => {
-    if (status === "Disponible") {
-      return (
-        <span className="itemcard-status itemcard-status-available">
-          Disponible
-        </span>
-      );
-    } else if (status === "Annuler") {
-      return (
-        <span className="itemcard-status itemcard-status-cancelled">
-          Annuler
-        </span>
-      );
-    } else if (status === "En cour") {
-      return (
-        <span className="itemcard-status itemcard-status-in-progress">
-          En cour
-        </span>
-      );
+    switch (status) {
+      case 1:
+        return (
+          <span className="itemcard-status itemcard-status-available">
+            Disponible
+          </span>
+        );
+      case 2:
+        return (
+          <span className="itemcard-status itemcard-status-cancelled">
+            Annuler
+          </span>
+        );
+      case 3:
+        return (
+          <span className="itemcard-status itemcard-status-in-progress">
+            En cour
+          </span>
+        );
+      default:
+        return <span className="itemcard-status">{status}</span>;
     }
   };
 
-  const handleClick = (e, status) => {
-    if (status === "Annuler") {
-      e.preventDefault();
-    }
-  };
+  if (!Array.isArray(dataSearch) || dataSearch.length === 0) {
+    return (
+      <div className="itemcard-container">
+        <div className="itemcard-info">
+          <div className="itemcard-available">Aucun trajet disponible</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="itemcard-container">
       <div className="itemcard-info">
         <div className="itemcard-available">
-          <span className="available-label">trajets disponibles :</span> 14
+          <span className="available-label">trajets disponibles :</span>{" "}
+          {dataSearch.length}
         </div>
       </div>
 
       <div className="itemcard-pairs">
-        {items.map((item, index) => (
-          <div className="itemcard-pair" key={item.id}>
+        {dataSearch.map((trip, index) => (
+          <div className="itemcard-pair" key={index}>
             <Link
               to="/Covoiturage/save"
-              className="itemcard-link"
-              onClick={(e) => handleClick(e, item.status)}
+              className={`itemcard-link ${
+                trip.status === "Annuler" ? "disabled" : ""
+              }`}
             >
               <div
                 className={`itemcard ${
-                  item.status === "Annuler" ? "disabled" : ""
+                  trip.status === "Annuler" ? "disabled" : ""
                 }`}
               >
                 <div className="itemcard-header">
                   <div className="itemcard-image-container">
-                    {getStatus(item.status)}
+                    {getStatus(trip.status.id)}
                   </div>
-                  <div className="itemcard-price">{item.price}</div>
+                  <div className="itemcard-price">{trip.price} TND</div>
                 </div>
                 <div className="itemcard-details">
                   <div className="itemcard-location">
                     <ul>
                       <li>
                         <span className="location-icon">&#128205;</span>
-                        {item.place}
+                        {trip.departurePoint}
                       </li>
                       <li>
                         <span className="location-icon">&#9201;</span>
-                        {item.departureTime}
+                        {format(
+                          new Date(trip.departureTime),
+                          "dd/MM/yyyy HH:mm"
+                        )}
                       </li>
                     </ul>
                   </div>
@@ -158,11 +101,11 @@ const ListItem = (selectedOption) => {
                     <ul>
                       <li>
                         <span className="location-icon">&#128205;</span>
-                        {item.arrive}
+                        {trip.arrivalPoint}
                       </li>
                       <li>
                         <span className="location-icon">&#9201;</span>
-                        {item.arrivalTime}
+                        {format(new Date(trip.arrivalTime), "dd/MM/yyyy HH:mm")}
                       </li>
                     </ul>
                   </div>
@@ -170,11 +113,18 @@ const ListItem = (selectedOption) => {
                 <div className="itemcard-users">
                   <div className="itemcard-user">
                     <span className="user-icon">&#129333;</span>
-                    {item.user}
+                    {trip.user.name} {trip.user.lastName}
                   </div>
                   <div className="itemcard-icons">
-                    <FaSnowflake />
-                    <FaSmoking />
+                    {trip.options.map((icon, index) => {
+                      if (icon.id === 1) {
+                        return <FaSnowflake key={index} />;
+                      } else if (icon.id === 2) {
+                        return <FaSmoking key={index} />;
+                      } else {
+                        return <FaMusic key={index} />;
+                      }
+                    })}
                   </div>
                 </div>
               </div>

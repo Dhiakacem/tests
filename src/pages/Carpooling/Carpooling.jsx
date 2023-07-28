@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   FaUser,
   FaMapMarkerAlt,
   FaCar,
   FaClock,
   FaBan,
-  FaUsers,  
+  FaUsers,
 } from "react-icons/fa";
 import { IoMdStar, IoMdStarOutline } from "react-icons/io";
 import Navbar from "../../components/Navbar/Navbar";
@@ -14,8 +14,28 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Carpooling.css";
 import Scrollbar from "../../components/Scrollbar/Scrollbar";
+import axios from "axios";
+import API_URL from "../../services";
+import { UserContext } from "../../Context/UserContext";
 
 const Carpooling = () => {
+  const [tripData, setTripData] = useState(null);
+  const userdata = useContext(UserContext);
+
+  const fetchTripData = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/rides/`);
+      setTripData(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log("Error fetching trip data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTripData(); // Fetch trip data when the component mounts
+  }, []);
+
   const getRandomTime = () => {
     const hours = Math.floor(Math.random() * 24);
     const minutes = Math.floor(Math.random() * 60);
@@ -32,7 +52,7 @@ const Carpooling = () => {
     description: "Passionate traveler",
     note: 4.8,
     prix: "15$",
-    status : "Disponible",
+    status: "Disponible",
   };
 
   const renderStars = (note) => {

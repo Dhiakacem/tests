@@ -8,23 +8,23 @@ const Tags = () => {
   const cards = [
     {
       id: 1,
-      nom: "John",
-      nomDeFamille: "Doe",
-      description: "Passionné de voyages de New York",
+      nom: "Ahmed",
+      nomDeFamille: " Ben Salem",
+      description: "Passionné de voyages de Sousse",
       note: 4.8,
     },
     {
       id: 2,
-      nom: "Loeem",
-      nomDeFamille: "ipsum",
-      description: "Passionné de voyages de New York",
+      nom: "Aymen",
+      nomDeFamille: "Behy",
+      description: "Passionné de voyages de Mahdia",
       note: 4.0,
     },
     {
       id: 3,
-      nom: "John",
-      nomDeFamille: "Doe",
-      description: "Passionné de voyages de New York",
+      nom: "Mariem",
+      nomDeFamille: "Ben Lamine",
+      description: "Passionné de voyages de Tunis",
       note: 3.2,
     },
   ];
@@ -72,6 +72,7 @@ const Tags = () => {
             <div className="profil-utilisateur">
               <div className="nom-utilisateur">
                 {carte.nom}
+
                 <div>{carte.nomDeFamille}</div>
               </div>
             </div>
