@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.3d6fee5e.css",
-    "main.js": "/static/js/main.12ec371f.js",
+    "main.css": "/static/css/main.9b200ecf.css",
+    "main.js": "/static/js/main.7ac3437e.js",
     "static/js/787.627756db.chunk.js": "/static/js/787.627756db.chunk.js",
     "static/media/cars.jpg": "/static/media/cars.d1c450bac311cbe5b0c9.jpg",
     "static/media/car.jpg": "/static/media/car.a8877bb757331721ec3d.jpg",
@@ -11,16 +11,17 @@
     "static/media/starfill.png": "/static/media/starfill.edb511960c96d212b96e.png",
     "static/media/silver-icon.png": "/static/media/silver-icon.3db1fc5daa44d6d37eee.png",
     "static/media/logo.png": "/static/media/logo.1c94e1caf5837abbec2c.png",
+    "static/media/logonoz.png": "/static/media/logonoz.1c94e1caf5837abbec2c.png",
     "static/media/Profile-image.png": "/static/media/Profile-image.5faf09a7795d28bf5a2b.png",
     "static/media/bronze-medal.png": "/static/media/bronze-medal.93d9bde25ca9288a8a72.png",
     "static/media/gold-middle.png": "/static/media/gold-middle.2e83944d0cb6911f121e.png",
     "index.html": "/index.html",
-    "main.3d6fee5e.css.map": "/static/css/main.3d6fee5e.css.map",
-    "main.12ec371f.js.map": "/static/js/main.12ec371f.js.map",
+    "main.9b200ecf.css.map": "/static/css/main.9b200ecf.css.map",
+    "main.7ac3437e.js.map": "/static/js/main.7ac3437e.js.map",
     "787.627756db.chunk.js.map": "/static/js/787.627756db.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3d6fee5e.css",
-    "static/js/main.12ec371f.js"
+    "static/css/main.9b200ecf.css",
+    "static/js/main.7ac3437e.js"
   ]
 }
